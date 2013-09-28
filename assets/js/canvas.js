@@ -103,4 +103,30 @@ var superObject =
     }
 ]
 
-console.log(getObjects(superObject, "name", "bullet"));
+
+function drawBullets(context, array)
+{
+	var bullets = getObjects(superObject, "name", "bullet");
+    for (i = 0; i < bullets.length; i = i + 1)
+	{
+		var img = new Image();
+		img.src = "bullet.png";
+		context.drawImage(img, 
+						bullets[i].position[0], 
+						bullets[i].position[1]);
+	}
+}
+
+function drawPlayers(context, array)
+{
+	var players = getObjects(superObject, "name", "player");
+    for (i = 0; i < players.length; i = i + 1)
+	{
+		var img = new Image();
+		img.src = "player.png";
+		context.drawImage(img, 
+						players[i].position[0], 
+						players[i].position[1]);
+	}
+}
+
