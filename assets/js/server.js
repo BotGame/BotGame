@@ -1,11 +1,42 @@
 //client
 
+
+var superObject =
+[
+    {
+        type: "player",
+        name: "william",
+        position: [6, 9, 0],
+        health: 69
+    },
+    {
+        type: "projectile",
+        name: "bullet",
+        position: [5, 10, 1],
+        health: undefined
+    },
+    {
+        type: "projectile",
+        name: "bullet",
+        position: [5, 10, 2],
+        health: undefined
+    },
+    {
+        type: "obstacle",
+        name: "wall",
+        position: [169, 269, 3],
+        health: 100
+    }
+]
+
+drawAll(superObject);
+
 function startListeningData()
 {
 	var socket = io.connect('http://localhost');
 	socket.on('gamestate', function (data)
 	{
-    	getObjects(data);
+    	drawAll(data);
     	//socket.emit('my other event', { my: 'data' });
 	});
 }
