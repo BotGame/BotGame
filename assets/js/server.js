@@ -1,6 +1,5 @@
 //client
 
-script
 
 var superObject =
 [
@@ -30,7 +29,7 @@ var superObject =
     }
 ]
 
-drawAll(superObject);
+//drawAll(superObject);
 
 function startListeningData()
 {
