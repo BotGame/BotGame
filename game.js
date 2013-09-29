@@ -62,22 +62,29 @@ function World(sessions){
     this.step=function(){
         players=this.players;
         for (sessionKey in players){
+
             currPlayer=players[sessionKey];
             command=sessions.getCmd(sessionKey);
+
             switch(command.move){
-                case "turnLeft":
-                    currPlayer.facing(left[currPlayer.facing()]);
+                case "left":
+                    console.log("Goleft")
+                        currPlayer.facing(left[currPlayer.facing()]);
                     break;
-                case "turnRight":
-                    currPlayer.facing(right[currPlayer.facing()]);
+                case "right":
+                    console.log("Goright")
+                        currPlayer.facing(right[currPlayer.facing()]);
                     break;
                 case "forward":
-                    var fwvec=vects[currPlayer.facing()];
+                    console.log("Goforward")
+                        var fwvec=vects[currPlayer.facing()];
                     var facing=currPlayer.facing();
                     var x = currPlayer.x()+fwvec[0];
                     var y = currPlayer.y()+fwvec[1];
-                    if (grid[x][y]==0){
-                        currPlayer.position([x,y,facing])
+                    if (!(x<0 || x >= constants.mapwidth || y<0 || y>=constants.mapheight)){
+                        if (this.grid[x][y]==0){
+                            currPlayer.position([x,y,facing])
+                        }
                     }
                     break;
                 default:

@@ -1,7 +1,6 @@
 var socket = io.connect('http://'+window.location.host);
 var sessionKey;
-socket.emit('setup',{});
-socket.on('sessionKey',function(data){sessionKey=data;});
+socket.on('sessionKey',function(data){sessionKey=data.sessionKey;});
 
 
 function outf(text) {
@@ -15,6 +14,7 @@ function outf(text) {
     //process text
     if (validateJSON(text)){
         var move = window.JSON.parse(text);
+        move.sessionKey=sessionKey;
         socket.emit('command', move);
     }
 }
@@ -39,6 +39,7 @@ function runit(gamestate) {
 var listening=false;
 function heartbeatListener(){
     if (!listening){
+        socket.emit('setup',{});
         socket.on('game_heartbeat',function(gameState){
             console.log("asdf")
             console.log(gameState)

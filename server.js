@@ -34,7 +34,7 @@ function start(){
                     world.removePlayer(data.sessionKey);
                 });
                 socket.on('command',function(data){
-                    sessions.setCmd(data.sessionKey,data.move,data.fire);
+                    sessions.setCmd(data.sessionKey,data.move,data.fire=="True"?true:false);
                 });
             });
         },

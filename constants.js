@@ -5,4 +5,5 @@ exports.constants={
     'damage':10,
     'mapwidth':20,
     'mapheight':20,
+    'print':console.log,
 }
