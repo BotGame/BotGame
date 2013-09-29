@@ -1,6 +1,3 @@
-
-canvas = new createjs.Stage("gameOutput");
-
 function getObjects(array, property, value)
 {
     var result = new Array();
