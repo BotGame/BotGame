@@ -1,3 +1,5 @@
+//canvas = new createjs.Stage("gameOutput");
+
 function getObjects(array, property, value)
 {
     var result = new Array();
@@ -14,7 +16,7 @@ function getObjects(array, property, value)
 
 function drawBullets(context, array)
 {
-	var bullets = getObjects(array, "name", "bullet");
+	var bullets = getObjects(array, "type", "bullet");
     for (i = 0; i < bullets.length; i = i + 1)
 	{
 		var img = new Image();
@@ -30,7 +32,7 @@ function drawBullets(context, array)
 
 function drawPlayers(context, array)
 {
-	var players = getObjects(array, "name", "player");
+	var players = getObjects(array, "type", "player");
     for (i = 0; i < players.length; i = i + 1)
 	{
 		var img = new Image();
@@ -38,9 +40,7 @@ function drawPlayers(context, array)
 		//context.drawImage(img, 
 		//				players[i].position[0], 
 		//				players[i].position[1]);
-		context.putImageData(img, 
-						players[i].position[0], 
-						players[i].position[1]);
+		context.putImageData(img, players[i].position[0], players[i].position[1]);
 	}
 }
 
