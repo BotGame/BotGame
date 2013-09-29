@@ -50,6 +50,7 @@ function drawPlayers(context, array)
 function drawAll(gamestate)
 {
 	//var canvas = document.getElementById("gameOutputCanvas");
+	var canvas = $('gameOutputCanvas');
 	var context = canvas.getContext("2d");
 	drawPlayers(context, gamestate);
 	drawBullets(context, gamestate);
