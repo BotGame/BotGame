@@ -1,11 +1,11 @@
 var socket = io.connect('http://'+window.location.host);
 
-function outf(text) { 
-        var mypre = document.getElementById("output"); 
+function outf(text) {
+    	var mypre = document.getElementById("output"); 
         mypre.innerHTML = mypre.innerHTML + text;
         //process text
         var move = window.JSON.parse(text);
-        socket.emit('command',{sessionKey:mykey, move});
+        socket.emit('command', move);
 }
 
 function builtinRead(x) {
@@ -23,7 +23,7 @@ function runit(gamestate) {
    Sk.pre = "output";
    Sk.configure({output:outf, read:builtinRead}); 
    eval(Sk.importMainWithBody("<stdin>",false,prog)); 
-} 
+}
 
 function heartbeatListener(){
     socket.on('game_heartbeat',function(gameState){
