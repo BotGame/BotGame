@@ -55,7 +55,16 @@ function drawAll(gamestate)
 }
 
 
-drawAll(superObject);
+function startListeningData()
+{
+	var socket = io.connect('http://localhost');
+	socket.on('gamestate', function (data)
+	{
+    	drawAll(data);
+		drawAll(superObject);
+    	//socket.emit('my other event', { my: 'data' });
+	});
+}
 
 
 
