@@ -1,12 +1,12 @@
 <html>
     <head>
-    <title>SWEEEEEEEEEET DISSSSSSSSPOOOOOOOOSIITION</title>
+    <title>Children of the Fittness Syndicate</title>
     <!-- library imports -->
     
 
     <!--<link rel="stylesheet" href="../css/codemirror.css">
     <link rel="stylesheet" href="../css/monokai.css"> --> 
-    <script src="../js/ace-builds-master/src-min/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="ace.js" type="text/javascript" charset="utf-8"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script type="text/javascript" src="../js/createjs-2013.09.25.min.js"></script>
     <script type="text/javascript" src="../js/server.js"></script>
@@ -32,16 +32,13 @@
     </head>
     
     <body>
+        <canvas id="gameOutputCanvas" style="float:right; height:100%; width:50%; right:0%;"></canvas>
         <div id="pythonInput">
             <form> 
-                <div id="yourcode" style="height: 100%; width: 50%">#Write a function getMove(gameState) 
-                </div><br /> 
-                <button type="button" style="position:absolute; bottom:0;" onclick="heartbeatListener()">Run</button> 
+                <div id="yourcode" style="height: 100%; width: 50%"></div><br /> 
+                <button type="button" style="position:absolute; bottom:5; left:45%; z-index:100;" onclick="heartbeatListener()">Run</button> 
             </form>
             <pre id="output" ></pre>
-        </div>
-        <div id="gameOutput">
-			<canvas id="gameOutputCanvas" style="border:1px solid black" width="500" height="500"></canvas>
         </div>
 
 	<div></div>
@@ -51,6 +48,7 @@
         editor.getSession().setUseWorker(false);
         editor.setTheme("ace/theme/monokai");
         editor.getSession().setMode("ace/mode/python");
+        editor.setValue("def getMove(gameState):\n    ")
     </script>
     <script>
       // syntax highlighting; do later
