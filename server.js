@@ -42,7 +42,6 @@ function start(){
             setInterval(function(){
                 state = world.step();
                 ioObj.sockets.emit('game_heartbeat',{state:world.digest()});
-                console.log("sadfasd");
             },constants.heartbeatPeriod);
             next();
         },
