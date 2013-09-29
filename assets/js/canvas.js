@@ -38,7 +38,10 @@ function drawPlayers(context, array)
 	{
 		var img = new Image();
 		img.src = "../img/player.png";
-		context.drawImage(img, 
+		//context.drawImage(img, 
+		//				players[i].position[0], 
+		//				players[i].position[1]);
+		context.putImageData(img, 
 						players[i].position[0], 
 						players[i].position[1]);
 	}
@@ -134,7 +137,7 @@ var superObject =
     {
         type: "player",
         name: "william",
-        position: [6, 9, 0],
+        position: [60, 90, 0],
         health: 69
     },
     {
