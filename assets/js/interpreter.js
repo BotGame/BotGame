@@ -5,9 +5,9 @@ function outf(text) {
         mypre.innerHTML = mypre.innerHTML + text;
         //process text
         var move = window.JSON.parse(text);
-        socket.emit('command',{sessionKey:mykey, move);
-        
-} 
+        socket.emit('command',{sessionKey:mykey, move});
+}
+
 function builtinRead(x) {
         if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined)
             throw "File not found: '" + x + "'";
