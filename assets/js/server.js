@@ -1,12 +1,13 @@
 //client
 
+script
 
 var superObject =
 [
     {
         type: "player",
         name: "william",
-        position: [6, 9, 0],
+        position: [60, 90, 0],
         health: 69
     },
     {
