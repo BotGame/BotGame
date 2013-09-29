@@ -1,5 +1,3 @@
-//canvas = new createjs.Stage("gameOutput");
-
 function getObjects(array, property, value)
 {
     var result = new Array();
@@ -7,53 +5,102 @@ function getObjects(array, property, value)
     {
         if (array[i][property] == value)
         {
-            result.push(array[i])
+            result.push(array[i]);
         }
     }
     return result;
 }
 
-
-function drawBullets(context, array)
+function drawBullets(context, array, size)
 {
-	var bullets = getObjects(array, "type", "bullet");
+	var bullets = getObjects(array, "type", "projectile");
     for (i = 0; i < bullets.length; i = i + 1)
 	{
-		var img = new Image();
-		img.src = "../img/bullet.png";
-		var rotate_direction = bullets[i].position[2]*45*Math.PI/180;
-		context.rotate(rotate_direction);
-		context.drawImage(img, 
-						bullets[i].position[0], 
-						bullets[i].position[1]);
-		context.rotate(-1*rotate_direction);
+        context.beginPath();
+        context.arc(bullets[i].position[0], bullets[i].position[1], size/2, 0, 2 * Math.PI, false);
+        context.fill();
+
+        context.moveTo(bullets[i].position[0], bullets[i].position[1])
+        context.strokeStyle = '#ff0000';
+        if (bullets[i].position[2] == "north")
+        {
+            context.lineTo(bullets[i].position[0], bullets[i].position[1] - size/2);
+        }
+        if (bullets[i].position[2] == "west")
+        {
+            context.lineTo(bullets[i].position[0] - size/2, bullets[i].position[1]);
+        }
+        if (bullets[i].position[2] == "east")
+        {
+            context.lineTo(bullets[i].position[0] + size/2, bullets[i].position[1]);
+        }
+        else
+        {
+            context.lineTo(bullets[i].position[0], bullets[i].position[1] + size/2);
+        }
+        context.stroke();
 	}
 }
 
-function drawPlayers(context, array)
+function drawPlayers(context, array, size)
 {
 	var players = getObjects(array, "type", "player");
     for (i = 0; i < players.length; i = i + 1)
 	{
-		var img = new Image();
-		img.src = "../img/player.png";
-		//context.drawImage(img, 
-		//				players[i].position[0], 
-		//				players[i].position[1]);
-		context.putImageData(img, players[i].position[0], players[i].position[1]);
+        context.beginPath();
+        context.rect(players[i].position[0] - size/2, players[i].position[1] - size/2, size, size);
+        context.fill();
+
+        context.moveTo(players[i].position[0], players[i].position[1])
+        context.strokeStyle = '#ff0000';
+        if (players[i].position[2] == "north")
+        {
+            context.lineTo(players[i].position[0], players[i].position[1] + size/2);
+        }
+        if (players[i].position[2] == "west")
+        {
+            context.lineTo(players[i].position[0] - size/2, players[i].position[1]);
+        }
+        if (players[i].position[2] == "east")
+        {
+            context.lineTo(players[i].position[0] + size/2, players[i].position[1]);
+        }
+        else
+        {
+            context.lineTo(players[i].position[0], players[i].position[1] - size/2);
+        }
+        context.stroke();
 	}
 }
 
-function drawAll(gamestate)
+function drawGrid(context, canvas, size)
 {
-	//var canvas = document.getElementById("gameOutputCanvas");
-	var canvas = $('gameOutputCanvas');
-	var context = canvas.getContext("2d");
-	drawPlayers(context, gamestate);
-	drawBullets(context, gamestate);
-	//drawObstacles(canvas, gamestate);
+    context.beginPath();
+    for (i = 0; i < canvas.width; i = i + size)
+    {
+        context.moveTo(i, 0);
+        context.lineTo(i, canvas.height);
+        context.strokeStyle = "#bebebe";
+        context.stroke();
+    }
+    for (i = 0; i < canvas.height; i = i + size)
+    {
+        context.moveTo(0, i);
+        context.lineTo(canvas.width, i);
+        context.strokeStyle = "#bebebe";
+        context.stroke();
+    }
 }
 
+
+
+function drawAll(canvas, gamestate)
+{
+	var context = canvas.getContext("2d");
+    drawGrid(context, canvas, 20);
+	drawPlayers(context, gamestate, 10);
+	drawBullets(context, gamestate, 10);
+}
 
 function startListeningData()
 {
@@ -66,111 +113,51 @@ function startListeningData()
 	});
 }
 
-
-
-
-/*
-function drawPlayers(context, array)
+function convertGameState(object, length)
 {
-    var players = new getObjects(superObject, "type", "player");
-    var result = new Array();
-    for (i = 0; i < players.length; i = i + 1)
+    result = new Array();
+    for (i = 0; i < length; i = i + 1)
     {
-        result.push(new createjs.Shape);
+        for (j = 0; j < length; j = j + 1)
+        {
+            if (object[i][j] != 0)
+            {
+                result.push(object[i][j]);
+            }
+        }
     }
-}
-*/
-
-
-/*
-function triangle(context, position, size)
-{
-    context.beginPath();
-    if (position[2] == 0)
-    {
-        context.moveTo(position[0] + size, position[1])
-        context.lineTo();
-        context.lineTo();
-    }
-    if (position[2] == 2)
-    {
-        context.moveTo(position[0], position[1] + size)
-        context.lineTo();
-        context.lineTo();
-    }
-    if (position[2] == 4)
-    {
-        context.moveTo(position[0] - size, position[1])
-        context.lineTo();
-        context.lineTo();
-    }
-    if (position[2] == 6)
-    {
-        context.moveTo(position[0], position[1] - size)
-        context.lineTo();
-        context.lineTo();
-    }
-    context.lineTo();
-    context.lineTo();
-    context.fill();
+    return result
 }
 
-function circle(context, position, size)
-{
-    context.arc(position[0], position[1], size, 0, 2 * Math.PI, true);
-}
-
-
-		
-		div.append(img);
-		div.css({
-			transform:rotate(bullets[i].position[2]*45*Math.PI/180);
-			-ms-transform:rotate(bullets[i].position[2]*45*Math.PI/180); 
-					//IE 9
-			-webkit-transform:rotate(bullets[i].position[2]*45*Math.PI/180);
-					// Safari and Chrome
-		});
-		
-
-*/
-
-
-
-
-
-
-//When I wrote this, only God and I understood what I was doing
-//Now, God only knows
-
-
-
-
-
-var superObject =
-[
-    {
-        type: "player",
-        name: "william",
-        position: [60, 90, 0],
-        health: 69
-    },
-    {
-        type: "projectile",
-        name: "bullet",
-        position: [5, 10, 1],
-        health: undefined
-    },
-    {
-        type: "projectile",
-        name: "bullet",
-        position: [5, 10, 2],
-        health: undefined
-    },
-    {
-        type: "obstacle",
-        name: "wall",
-        position: [169, 269, 3],
-        health: 100
-    }
-]
+$(document).ready(function(){
+    var superObject =
+    [
+        {
+            type: "player",
+            name: "william",
+            position: [60, 90, "north"],
+            health: 69
+        },
+        {
+            type: "projectile",
+            name: "bullet",
+            position: [200, 80, "west"],
+            health: undefined
+        },
+        {
+            type: "projectile",
+            name: "bullet",
+            position: [200, 90, "east"],
+            health: undefined
+        },
+        {
+            type: "obstacle",
+            name: "wall",
+            position: [169, 269, "south"],
+            health: 100
+        }
+    ]
+    var canvas = document.getElementById("gameOutputCanvas");
+    drawAll(canvas, superObject);
+})
 
