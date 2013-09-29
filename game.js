@@ -1,15 +1,14 @@
-var constants=require(./constants.js).constants;
+var constants=require('./constants.js').constants;
 function World(sessions){
     this.sessions=sessions;
 
     //Generate grid
     this.grid=[];
     for (var i = 0; i < constants.mapwidth; i++){
-        grid[i]=[];
+        this.grid[i]=[];
         for (var j = 0; j < constants.mapheight; j++){
             //Pointless comment
-            grid[i][j]=0;
-            console.log(grid[i][j]);
+            this.grid[i][j]=0;
         }
     }
 

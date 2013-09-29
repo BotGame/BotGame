@@ -4,6 +4,7 @@ var http = require('http');
 var constants=require('./constants.js').constants;
 var Sessions=require('./sessions.js').Sessions;
 var World=require('./game.js').World;
+var onRequest = require('./httpServe.js').onRequest;
 
 var ioObj;
 var sessions;
@@ -21,7 +22,7 @@ function start(){
             next();
         },
         function startHTTP(next){
-            var server = http.createServer(function(req,res){/*TODO: Jong's Code Here*/}).listen(constants.port,function(){next();});
+            var server = http.createServer(onRequest).listen(constants.port,function(){next();});
             ioObj=io.listen(server,{log:false}).on('connection',function(socket){
                 socket.on('setup',function(data){
                     var sessionKey=sessions.addSession()
