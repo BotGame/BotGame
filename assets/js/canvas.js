@@ -17,26 +17,26 @@ function drawBullets(context, array, size)
     for (i = 0; i < bullets.length; i = i + 1)
 	{
         context.beginPath();
-        context.arc(bullets[i].position[0], bullets[i].position[1], size/2, 0, 2 * Math.PI, false);
+        context.arc(bullets[i].position[0]*size, bullets[i].position[1]*size, size/2, 0, 2 * Math.PI, false);
         context.fill();
 
-        context.moveTo(bullets[i].position[0], bullets[i].position[1])
+        context.moveTo(bullets[i].position[0]*size, bullets[i].position[1]*size)
         context.strokeStyle = '#ff0000';
         if (bullets[i].position[2] == "north")
         {
-            context.lineTo(bullets[i].position[0], bullets[i].position[1] - size/2);
+            context.lineTo(bullets[i].position[0]*size, bullets[i].position[1]*size - size/2);
         }
         if (bullets[i].position[2] == "west")
         {
-            context.lineTo(bullets[i].position[0] - size/2, bullets[i].position[1]);
+            context.lineTo(bullets[i].position[0]*size - size/2, bullets[i].position[1]*size);
         }
         if (bullets[i].position[2] == "east")
         {
-            context.lineTo(bullets[i].position[0] + size/2, bullets[i].position[1]);
+            context.lineTo(bullets[i].position[0]*size + size/2, bullets[i].position[1]*size);
         }
         else
         {
-            context.lineTo(bullets[i].position[0], bullets[i].position[1] + size/2);
+            context.lineTo(bullets[i].position[0]*size, bullets[i].position[1]*size + size/2);
         }
         context.stroke();
 	}

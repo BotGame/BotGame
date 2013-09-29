@@ -2,8 +2,8 @@ var constants=require('./constants.js').constants;
 
 function Player(sessionKey,grid,name,x,y){
     this.__sessionKey=sessionKey;
-    this.__grid=grid
-        this.__name=name;
+    this.__grid=grid;
+    this.__name=name;
     this.__maxhp=constants.maxhp;
     this.__hp=constants.maxhp;
     this.__damage=constants.damage;

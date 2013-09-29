@@ -1,5 +1,6 @@
 var constants=require('./constants.js').constants;
 var Player=require('./player.js').Player;
+var Bullet=require('./bullet.js').Bullet;
 
 var left={
     'north':'west',
@@ -34,6 +35,7 @@ function World(sessions){
     }
 
     this.players={};
+    this.bullets=[];
 
     this.addPlayer=function(sessionKey){
         var pos = findEmpty(this.grid);
@@ -68,20 +70,17 @@ function World(sessions){
 
             switch(command.move){
                 case "left":
-                    console.log("Goleft")
                         currPlayer.facing(left[currPlayer.facing()]);
                     break;
                 case "right":
-                    console.log("Goright")
                         currPlayer.facing(right[currPlayer.facing()]);
                     break;
                 case "forward":
-                    console.log("Goforward")
-                        var fwvec=vects[currPlayer.facing()];
+                    var fwvec=vects[currPlayer.facing()];
                     var facing=currPlayer.facing();
                     var x = currPlayer.x()+fwvec[0];
                     var y = currPlayer.y()+fwvec[1];
-                    if (!(x<0 || x >= constants.mapwidth || y<0 || y>=constants.mapheight)){
+                    if (isOnGrid(x,y)){
                         if (this.grid[x][y]==0){
                             currPlayer.position([x,y,facing])
                         }
@@ -89,7 +88,39 @@ function World(sessions){
                     break;
                 default:
             }
+        }
 
+        for (sessionKey in players){
+            currPlayer=players[sessionKey];
+            command=sessions.getCmd(sessionKey);
+            var fwvec=vects[currPlayer.facing()];
+            var x = currPlayer.x()+fwvec[0];
+            var y = currPlayer.y()+fwvec[1];
+            if (command.fire && isOnGrid(x,y) && this.grid[x][y]==0){
+                console.log("pew");
+                //Make a bullet
+                var bullet = new Bullet(this.grid,x,y,currPlayer.facing(),currPlayer.damage);
+                this.bullets.push(bullet);
+                this.grid[x][y]=bullet;
+            }else if (command.shoot && isOnGrid(x,y) && isPlayer(grid[x][y])){
+                damage(grid[x][y], currPlayer.damage);
+            }
+        }
+        for (i in this.bullets){
+            bullet=this.bullets[i];
+            var fwvec=vects[bullet.facing()];
+            var x = bullet.x()+fwvec[0];
+            var y = bullet.y()+fwvec[1];
+            if (isOnGrid(x,y) && this.grid[x][y]==0){
+                bullet.position([x,y]);
+            }else if(isOnGrid(x,y) && isPlayer(this.grid[x][y])){
+                damage(this.grid[x][y],bullet.damage);
+                this.bullets.splice(this.bullets.indexOf(bullet),1);
+                this.grid[bullet.x()][bullet.y()]=0;
+            }else{
+                this.bullets.splice(this.bullets.indexOf(bullet),1);
+                this.grid[bullet.x()][bullet.y()]=0;
+            }
         }
     }
 }
@@ -103,5 +134,14 @@ function findEmpty(grid){
         }
     }
     return false
+}
+function isPlayer(p){
+    return p!=0 && p.__sessionKey!=undefined;
+}
+function isOnGrid(x,y){
+    return !(x<0 || x >= constants.mapwidth || y<0 || y>=constants.mapheight)
+}
+function damage(p,amt){
+    p.__hp-=constants.damage;
 }
 exports.World=World;

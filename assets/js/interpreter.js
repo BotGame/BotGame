@@ -4,7 +4,6 @@ socket.on('sessionKey',function(data){sessionKey=data.sessionKey;});
 
 
 function outf(text) {
-    console.log(text);
     if (text=="\n"){
         //Goes 'hacky hacky'
         return
@@ -27,7 +26,7 @@ function builtinRead(x) {
 
 function runit(gamestate) { 
     var prog = 'gameState='+gamestate+ "\n" + editor.getValue() + '\nval = getMove(gameState) \nprint \'{"move":"\'+str(val[0])+\'","shoot":"\'+str(val[1])+\'"}\'';
-    console.log(prog);
+    console.log(prog)
     var mypre = document.getElementById("output"); 
     mypre.innerHTML = ''; 
     Sk.canvas = "mycanvas";
@@ -41,8 +40,6 @@ function heartbeatListener(){
     if (!listening){
         socket.emit('setup',{});
         socket.on('game_heartbeat',function(gameState){
-            console.log("asdf")
-            console.log(gameState)
             data = window.JSON.stringify(gameState.state);
         runit(data);
         });    
@@ -51,7 +48,6 @@ function heartbeatListener(){
 }
 
 function validateJSON(text){
-    console.log(text);
     if (/^[\],:{}\s]*$/.test(text.replace(/\\["\\\/bfnrtu]/g, '@').
     replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']').
     replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {

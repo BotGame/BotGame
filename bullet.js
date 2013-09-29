@@ -1,24 +1,20 @@
 var constants=require('./constants.js').constants;
 
-function Bullet(sessionKey,grid,name,x,y){
-    this.__sessionKey=sessionKey;
+function Bullet(grid,x,y,facing,power){
     this.__grid=grid
-        this.__name=name;
-    this.__maxhp=constants.maxhp;
-    this.__hp=constants.maxhp;
-    this.__damage=constants.damage;
-    this.__position=[x,y,'north']
-        this.__powerups={};
+    this.__power=constants.power;
+    this.__position=[x,y,facing]
 
-    this.position=function(pos){
-        if (pos==undefined){
-            return this.__position;
-        }else{
-            this.__grid[this.__position[0]][this.__position[1]]=0;
-            this.__grid[pos[0]][pos[1]]=this;
-            this.__position=pos;
+    this.digest=function(name){
+        return {
+            type:'projectile',
+            name:"Craig",
+            position:this.__position,
+            health:-1,
+            maxhealth:-1,
         }
     }
+
     this.x=function(){
         return this.__position[0];
     }
@@ -26,28 +22,18 @@ function Bullet(sessionKey,grid,name,x,y){
         return this.__position[1];
     }
     this.facing=function(val){
-        if (val==undefined){return this.__position[2];}
-        else{this.__position[2]=val;}
+        return this.__position[2];
     }
-    this.sessionKey=function(){return this.sessionKey;}
-    this.name=function(){return this.__name;}
-    this.hp=function(val){
-        if (val==undefined){return this.__hp;}
-        else{this.__hp=val;}
-    }
-    this.maxhp=function(val){return this.__maxhp;}
-    this.damage=function(val){return this.__maxhp;}
-    this.hasPowerup=function(name){
-        return name in this.__powerups;
-    }
-    this.digest=function(name){
-        return {
-            type:'player',
-            name:this.__name,
-            position:this.__position,
-            health:this.__hp,
-            maxhealth:this.__maxhp,
+    this.position=function(pos){
+        if (pos==undefined){
+            return this.__position;
+        }else{
+            this.__grid[this.__position[0]][this.__position[1]]=0;
+            this.__grid[pos[0]][pos[1]]=this;
+            this.__position=[pos[0],pos[1],this.__position[2]];
         }
     }
+
+
 }
 exports.Bullet=Bullet;

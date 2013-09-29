@@ -19,7 +19,6 @@ function Sessions(){
     }
     this.setCmd=function(key,move,fire){
         this.__keyToCmd[key]=new Command(move,fire);
-        console.log(key)
     }
 }
 
