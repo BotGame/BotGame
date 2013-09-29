@@ -11,13 +11,13 @@ function getObjects(array, property, value)
             result.push(array[i])
         }
     }
-    return result
+    return result;
 }
 
 
 function drawBullets(context, array)
 {
-	var bullets = getObjects(superObject, "name", "bullet");
+	var bullets = getObjects(array, "name", "bullet");
     for (i = 0; i < bullets.length; i = i + 1)
 	{
 		var img = new Image();
@@ -33,7 +33,7 @@ function drawBullets(context, array)
 
 function drawPlayers(context, array)
 {
-	var players = getObjects(superObject, "name", "player");
+	var players = getObjects(array, "name", "player");
     for (i = 0; i < players.length; i = i + 1)
 	{
 		var img = new Image();
@@ -49,13 +49,15 @@ function drawPlayers(context, array)
 
 function drawAll(gamestate)
 {
-	var canvas = $('gameOutputCanvas');
-	drawPlayers(canvas, gamestate);
-	drawBullets(canvas, gamestate);
+	//var canvas = document.getElementById("gameOutputCanvas");
+	var context = canvas.getContext("2d");
+	drawPlayers(context, gamestate);
+	drawBullets(context, gamestate);
 	//drawObstacles(canvas, gamestate);
 }
 
 
+drawAll(superObject);
 
 
 
@@ -127,6 +129,11 @@ function circle(context, position, size)
 
 
 
+
+
+
+//When I wrote this, only God and I understood what I was doing
+//Now, God only knows
 
 
 
