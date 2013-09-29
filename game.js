@@ -1,4 +1,5 @@
 var constants=require('./constants.js').constants;
+var Player=require('./player.js').Player;
 
 var left={
     'north':'west',
@@ -36,9 +37,9 @@ function World(sessions){
 
     this.addPlayer=function(sessionKey){
         var pos = findEmpty(this.grid);
-        var player = new Player(sessionKey,grid,"Bot#"+Math.round(Math.random()*99999999),pos[0],pos[1]);
-        players[sessionKey]=player;
-        grid[pos[0]][pos[1]]=player;
+        var player = new Player(sessionKey,this.grid,"Bot#"+Math.round(Math.random()*99999999),pos[0],pos[1]);
+        this.players[sessionKey]=player;
+        this.grid[pos[0]][pos[1]]=player;
     }
 
     this.removePlayer=function(sessionKey){
@@ -82,7 +83,6 @@ function World(sessions){
                 default:
             }
 
-            console.log(currPlayer);
         }
     }
 }

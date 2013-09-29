@@ -26,7 +26,7 @@ function start(){
             ioObj=io.listen(server,{log:false}).on('connection',function(socket){
                 socket.on('setup',function(data){
                     var sessionKey=sessions.addSession()
-                    socket.emit('sessionKey',sessionKey);
+                    socket.emit('sessionKey',{sessionKey:sessionKey});
                     world.addPlayer(sessionKey);
                 });
                 socket.on('logout',function(data){

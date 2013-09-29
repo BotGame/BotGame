@@ -50,3 +50,4 @@ function Player(sessionKey,grid,name,x,y){
         }
     }
 }
+exports.Player=Player;

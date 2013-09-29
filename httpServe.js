@@ -12,10 +12,9 @@ exports.onRequest=function(request,response) {
         var pathext = path.extname(request.url).slice(1,path.extname(request.url).length);
         pathname="./assets/" + pathext + "/" + path.basename(request.url) + "";
     }
-    console.log(pathname);
     fs.readFile(pathname, function(error, data) {
         if (error){
-            console.log("WHAT THE FUCK ARE YOU DOING?");
+            console.log("File not found error.");
         }else{
             if (request.url == "/") {response.writeHeader("200",{"Content-Type": "text/html"});}
             else {response.writeHeader("200", {"Content-Type": "text/" + path.extname(request.url).slice(1,path.extname(request.url).length)});}

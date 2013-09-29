@@ -1,11 +1,18 @@
 var socket = io.connect('http://'+window.location.host);
+var sessionKey;
+socket.emit('setup',{});
+socket.on('sessionKey',function(data){sessionKey=data;});
+
 
 function outf(text) {
-    console.log("outf")
+    console.log(text);
+    if (text=="\n"){
+        //Goes 'hacky hacky'
+        return
+    }
     var mypre = document.getElementById("output"); 
     mypre.innerHTML = mypre.innerHTML + text;
     //process text
-    console.log("Text: " +  text);
     if (validateJSON(text)){
         var move = window.JSON.parse(text);
         socket.emit('command', move);
@@ -19,7 +26,7 @@ function builtinRead(x) {
 }
 
 function runit(gamestate) { 
-    var prog = 'gameState='+gamestate+ "\n" + document.getElementById("yourcode").value + '\nprint getMove(gameState)';
+    var prog = 'gameState='+gamestate+ "\n" + editor.getValue() + '\nval = getMove(gameState) \nprint \'{"move":"\'+str(val[0])+\'","shoot":"\'+str(val[1])+\'"}\'';
     console.log(prog);
     var mypre = document.getElementById("output"); 
     mypre.innerHTML = ''; 
