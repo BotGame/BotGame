@@ -15,6 +15,47 @@ function getObjects(array, property, value)
 }
 
 
+function drawBullets(context, array)
+{
+	var bullets = getObjects(superObject, "name", "bullet");
+    for (i = 0; i < bullets.length; i = i + 1)
+	{
+		var img = new Image();
+		img.src = "../img/bullet.png";
+		var rotate_direction = bullets[i].position[2]*45*Math.PI/180;
+		context.rotate(rotate_direction);
+		context.drawImage(img, 
+						bullets[i].position[0], 
+						bullets[i].position[1]);
+		context.rotate(-1*rotate_direction);
+	}
+}
+
+function drawPlayers(context, array)
+{
+	var players = getObjects(superObject, "name", "player");
+    for (i = 0; i < players.length; i = i + 1)
+	{
+		var img = new Image();
+		img.src = "../img/player.png";
+		context.drawImage(img, 
+						players[i].position[0], 
+						players[i].position[1]);
+	}
+}
+
+function drawAll(gamestate)
+{
+	var canvas = $('gameOutputCanvas');
+	drawPlayers(canvas, gamestate);
+	drawBullets(canvas, gamestate);
+	//drawObstacles(canvas, gamestate);
+}
+
+
+
+
+
 
 /*
 function drawPlayers(context, array)
@@ -66,6 +107,19 @@ function circle(context, position, size)
 {
     context.arc(position[0], position[1], size, 0, 2 * Math.PI, true);
 }
+
+
+		
+		div.append(img);
+		div.css({
+			transform:rotate(bullets[i].position[2]*45*Math.PI/180);
+			-ms-transform:rotate(bullets[i].position[2]*45*Math.PI/180); 
+					//IE 9
+			-webkit-transform:rotate(bullets[i].position[2]*45*Math.PI/180);
+					// Safari and Chrome
+		});
+		
+
 */
 
 
@@ -102,31 +156,4 @@ var superObject =
         health: 100
     }
 ]
-
-
-function drawBullets(context, array)
-{
-	var bullets = getObjects(superObject, "name", "bullet");
-    for (i = 0; i < bullets.length; i = i + 1)
-	{
-		var img = new Image();
-		img.src = "bullet.png";
-		context.drawImage(img, 
-						bullets[i].position[0], 
-						bullets[i].position[1]);
-	}
-}
-
-function drawPlayers(context, array)
-{
-	var players = getObjects(superObject, "name", "player");
-    for (i = 0; i < players.length; i = i + 1)
-	{
-		var img = new Image();
-		img.src = "player.png";
-		context.drawImage(img, 
-						players[i].position[0], 
-						players[i].position[1]);
-	}
-}
 
