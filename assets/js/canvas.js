@@ -48,28 +48,27 @@ function drawPlayers(context, array, size)
     for (i = 0; i < players.length; i = i + 1)
 	{
         context.beginPath();
-        context.rect(players[i].position[0] - size/2, players[i].position[1] - size/2, size, size);
+        context.rect(players[i].position[0]*size - size/2, players[i].position[1]*size - size/2, size, size);
         context.fill();
+        context.stroke();
 
-        context.moveTo(players[i].position[0], players[i].position[1])
+        context.strokeStyle = 'rgba(0,0,0,0)';
+        context.moveTo(players[i].position[0]*size, players[i].position[1]*size)
         context.strokeStyle = '#ff0000';
-        if (players[i].position[2] == "north")
-        {
-            context.lineTo(players[i].position[0], players[i].position[1] + size/2);
+        if (players[i].position[2] == "north"){
+            context.lineTo(players[i].position[0]*size, players[i].position[1]*size + size/2);
         }
-        if (players[i].position[2] == "west")
-        {
-            context.lineTo(players[i].position[0] - size/2, players[i].position[1]);
+        else if (players[i].position[2] == "west"){
+            context.lineTo(players[i].position[0]*size - size/2, players[i].position[1]*size);
         }
-        if (players[i].position[2] == "east")
-        {
-            context.lineTo(players[i].position[0] + size/2, players[i].position[1]);
+        else if (players[i].position[2] == "east"){
+            context.lineTo(players[i].position[0]*size + size/2, players[i].position[1]*size);
         }
-        else
-        {
-            context.lineTo(players[i].position[0], players[i].position[1] - size/2);
+        else if (players[i].position[2] == "south"){
+            context.lineTo(players[i].position[0]*size, players[i].position[1]*size - size/2);
         }
         context.stroke();
+        context.strokeStyle = 'rgba(0,0,0,0)';
 	}
 }
 
@@ -97,6 +96,7 @@ function drawGrid(context, canvas, size)
 function drawAll(canvas, gamestate)
 {
 	var context = canvas.getContext("2d");
+    context.clearRect(0,0,canvas.width,canvas.height)
     drawGrid(context, canvas, 20);
 	drawPlayers(context, gamestate, 10);
 	drawBullets(context, gamestate, 10);
@@ -104,12 +104,8 @@ function drawAll(canvas, gamestate)
 
 function startListeningData()
 {
-	var socket = io.connect('http://localhost');
-	socket.on('gamestate', function (data)
-	{
-    	drawAll(data);
-		drawAll(superObject);
-    	//socket.emit('my other event', { my: 'data' });
+	socket.on('game_heartbeat', function (data){
+    	drawAll(document.getElementById("gameOutputCanvas"),convertGameState(data.state,20));
 	});
 }
 
@@ -130,34 +126,6 @@ function convertGameState(object, length)
 }
 
 $(document).ready(function(){
-    var superObject =
-    [
-        {
-            type: "player",
-            name: "william",
-            position: [60, 90, "north"],
-            health: 69
-        },
-        {
-            type: "projectile",
-            name: "bullet",
-            position: [200, 80, "west"],
-            health: undefined
-        },
-        {
-            type: "projectile",
-            name: "bullet",
-            position: [200, 90, "east"],
-            health: undefined
-        },
-        {
-            type: "obstacle",
-            name: "wall",
-            position: [169, 269, "south"],
-            health: 100
-        }
-    ]
-    var canvas = document.getElementById("gameOutputCanvas");
-    drawAll(canvas, superObject);
+    startListeningData();
 })
 
