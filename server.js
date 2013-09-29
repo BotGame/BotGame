@@ -39,9 +39,10 @@ function start(){
             });
         },
         function startHeartbeat(next){
-            setTimeout(function(){
+            setInterval(function(){
                 state = world.step();
                 ioObj.sockets.emit('game_heartbeat',{state:world.digest()});
+                console.log("sadfasd");
             },constants.heartbeatPeriod);
             next();
         },

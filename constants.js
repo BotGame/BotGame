@@ -1,6 +1,6 @@
 exports.constants={
 	'port':1759,
-	'heartbeatPeriod':250,
+	'heartbeatPeriod':1000,
     'maxhp':100,
     'damage':10,
     'mapwidth':20,
