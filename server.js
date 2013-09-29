@@ -41,7 +41,7 @@ function start(){
         function startHeartbeat(next){
             setTimeout(function(){
                 state = world.step();
-                ioObj.sockets.emit('game_heartbeat',{state:state});
+                ioObj.sockets.emit('game_heartbeat',{state:world.digest()});
             },constants.heartbeatPeriod);
             next();
         },
